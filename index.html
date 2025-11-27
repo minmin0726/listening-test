@@ -2,32 +2,68 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>日本語聴解テスト</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>促音小实验</title>
   <style>
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 0 16px;
-      line-height: 1.6;
+      max-width: 700px;
+      margin: 24px auto;
+      padding: 0 12px;
+      line-height: 1.7;
+      font-size: 17px;
     }
     h1 {
       text-align: center;
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+    p.subtitle {
+      text-align: center;
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+    p.note {
+      text-align: center;
+      font-size: 13px;
+      color: #666;
+      margin-top: -6px;
+      margin-bottom: 20px;
     }
     .question {
       border: 1px solid #ddd;
-      padding: 16px;
-      margin-bottom: 20px;
+      padding: 14px;
+      margin-bottom: 18px;
       border-radius: 8px;
     }
+    .question p {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+    audio {
+      width: 100%;
+      max-width: 100%;
+      margin-top: 6px;
+    }
+    .options {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
     .options label {
-      display: block;
-      margin: 4px 0;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
       cursor: pointer;
     }
+    .options input[type="radio"] {
+      margin-right: 6px;
+    }
     #submit-btn {
-      display: inline-block;
-      padding: 10px 20px;
+      display: block;
+      margin: 24px auto 0;
+      padding: 10px 24px;
       font-size: 16px;
       cursor: pointer;
       border-radius: 6px;
@@ -37,32 +73,306 @@
   </style>
 </head>
 <body>
-  <h1>日本語聴解テスト</h1>
-  <p>音声を聞いて、正しい答えを一つ選んでください。</p>
+  <h1>促音小实验</h1>
+  <p class="subtitle">音声を聞いて、正しい答えを一つ選んでください。</p>
+  <p class="note">※ それぞれの音声は、一度だけとは限らず、同じものが複数回出てくる可能性があります。</p>
 
-  <!-- 第1题：答案为 A -->
-  <div class="question" data-answer="A">
+  <!-- 1. いきき / いきっき  audio: ikiKki1  正解: B -->
+  <div class="question" data-answer="B">
     <p><strong>第1問</strong>　それは「＿＿＿」です。</p>
     <audio controls>
-      <source src="audio/akakaQ1.mp3" type="audio/mpeg">
+      <source src="audio/ikiKki1.mp3" type="audio/mpeg">
       ご利用のブラウザは audio タグに対応していません。
     </audio>
     <div class="options">
-      <label><input type="radio" name="q1" value="A"> A．あかか</label>
-      <label><input type="radio" name="q1" value="B"> B．あかっか</label>
+      <label><input type="radio" name="q1" value="A">A．いきき</label>
+      <label><input type="radio" name="q1" value="B">B．いきっき</label>
     </div>
   </div>
 
-  <!-- 第2题：答案为 B -->
-  <div class="question" data-answer="B">
+  <!-- 2. えせせ / えせっせ  audio: esese2  正解: A -->
+  <div class="question" data-answer="A">
     <p><strong>第2問</strong>　それは「＿＿＿」です。</p>
     <audio controls>
-      <source src="audio/akakkaQ2.mp3" type="audio/mpeg">
+      <source src="audio/esese2.mp3" type="audio/mpeg">
       ご利用のブラウザは audio タグに対応していません。
     </audio>
     <div class="options">
-      <label><input type="radio" name="q2" value="A"> A．あかか</label>
-      <label><input type="radio" name="q2" value="B"> B．あかっか</label>
+      <label><input type="radio" name="q2" value="A">A．えせせ</label>
+      <label><input type="radio" name="q2" value="B">B．えせっせ</label>
+    </div>
+  </div>
+
+  <!-- 3. あささ / あさっさ  audio: asasa3  正解: A -->
+  <div class="question" data-answer="A">
+    <p><strong>第3問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/asasa3.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q3" value="A">A．あささ</label>
+      <label><input type="radio" name="q3" value="B">B．あさっさ</label>
+    </div>
+  </div>
+
+  <!-- 4. いしし / いしっし  audio: ishiSshi4  正解: B -->
+  <div class="question" data-answer="B">
+    <p><strong>第4問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/ishiSshi4.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q4" value="A">A．いしし</label>
+      <label><input type="radio" name="q4" value="B">B．いしっし</label>
+    </div>
+  </div>
+
+  <!-- 5. あぱぱ / あぱっぱ  audio: apaPpa5  正解: B -->
+  <div class="question" data-answer="B">
+    <p><strong>第5問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/apaPpa5.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q5" value="A">A．あぱぱ</label>
+      <label><input type="radio" name="q5" value="B">B．あぱっぱ</label>
+    </div>
+  </div>
+
+  <!-- 6. いしし / いしっし  audio: ishishi6  正解: A -->
+  <div class="question" data-answer="A">
+    <p><strong>第6問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/ishishi6.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q6" value="A">A．いしし</label>
+      <label><input type="radio" name="q6" value="B">B．いしっし</label>
+    </div>
+  </div>
+
+  <!-- 7. えけけ / えけっけ  audio: ekeke7  正解: A -->
+  <div class="question" data-answer="A">
+    <p><strong>第7問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/ekeke7.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q7" value="A">A．えけけ</label>
+      <label><input type="radio" name="q7" value="B">B．えけっけ</label>
+    </div>
+  </div>
+
+  <!-- 8. えぺぺ / えぺっぺ  audio: epepe8  正解: A -->
+  <div class="question" data-answer="A">
+    <p><strong>第8問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/epepe8.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q8" value="A">A．えぺぺ</label>
+      <label><input type="radio" name="q8" value="B">B．えぺっぺ</label>
+    </div>
+  </div>
+
+  <!-- 9. あかか / あかっか  audio: akaka9  正解: A -->
+  <div class="question" data-answer="A">
+    <p><strong>第9問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/akaka9.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q9" value="A">A．あかか</label>
+      <label><input type="radio" name="q9" value="B">B．あかっか</label>
+    </div>
+  </div>
+
+  <!-- 10. えてて / えてって  audio: etete10  正解: A -->
+  <div class="question" data-answer="A">
+    <p><strong>第10問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/etete10.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q10" value="A">A．えてて</label>
+      <label><input type="radio" name="q10" value="B">B．えてって</label>
+    </div>
+  </div>
+
+  <!-- 11. いちち / いちっち  audio: ichiCchi11  正解: B -->
+  <div class="question" data-answer="B">
+    <p><strong>第11問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/ichiCchi11.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q11" value="A">A．いちち</label>
+      <label><input type="radio" name="q11" value="B">B．いちっち</label>
+    </div>
+  </div>
+
+  <!-- 12. えぺぺ / えぺっぺ  audio: epePpe12  正解: B -->
+  <div class="question" data-answer="B">
+    <p><strong>第12問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/epePpe12.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q12" value="A">A．えぺぺ</label>
+      <label><input type="radio" name="q12" value="B">B．えぺっぺ</label>
+    </div>
+  </div>
+
+  <!-- 13. いぴぴ / いぴっぴ  audio: ipipi13  正解: A -->
+  <div class="question" data-answer="A">
+    <p><strong>第13問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/ipipi13.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q13" value="A">A．いぴぴ</label>
+      <label><input type="radio" name="q13" value="B">B．いぴっぴ</label>
+    </div>
+  </div>
+
+  <!-- 14. あささ / あさっさ  audio: asaSsa14  正解: B -->
+  <div class="question" data-answer="B">
+    <p><strong>第14問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/asaSsa14.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q14" value="A">A．あささ</label>
+      <label><input type="radio" name="q14" value="B">B．あさっさ</label>
+    </div>
+  </div>
+
+  <!-- 15. いちち / いちっち  audio: ichichi15  正解: A -->
+  <div class="question" data-answer="A">
+    <p><strong>第15問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/ichichi15.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q15" value="A">A．いちち</label>
+      <label><input type="radio" name="q15" value="B">B．いちっち</label>
+    </div>
+  </div>
+
+  <!-- 16. あぱぱ / あぱっぱ  audio: apapa16  正解: A -->
+  <div class="question" data-answer="A">
+    <p><strong>第16問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/apapa16.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q16" value="A">A．あぱぱ</label>
+      <label><input type="radio" name="q16" value="B">B．あぱっぱ</label>
+    </div>
+  </div>
+
+  <!-- 17. あたた / あたった  audio: atata17  正解: A -->
+  <div class="question" data-answer="A">
+    <p><strong>第17問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/atata17.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q17" value="A">A．あたた</label>
+      <label><input type="radio" name="q17" value="B">B．あたった</label>
+    </div>
+  </div>
+
+  <!-- 18. えてて / えてって  audio: eteTte18  正解: B -->
+  <div class="question" data-answer="B">
+    <p><strong>第18問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/eteTte18.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q18" value="A">A．えてて</label>
+      <label><input type="radio" name="q18" value="B">B．えてって</label>
+    </div>
+  </div>
+
+  <!-- 19. えけけ / えけっけ  audio: ekeKke19  正解: B -->
+  <div class="question" data-answer="B">
+    <p><strong>第19問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/ekeKke19.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q19" value="A">A．えけけ</label>
+      <label><input type="radio" name="q19" value="B">B．えけっけ</label>
+    </div>
+  </div>
+
+  <!-- 20. いぴぴ / いぴっぴ  audio: ipiPpi20  正解: B -->
+  <div class="question" data-answer="B">
+    <p><strong>第20問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/ipiPpi20.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q20" value="A">A．いぴぴ</label>
+      <label><input type="radio" name="q20" value="B">B．いぴっぴ</label>
+    </div>
+  </div>
+
+  <!-- 21. えせせ / えせっせ  audio: eseSse21  正解: B -->
+  <div class="question" data-answer="B">
+    <p><strong>第21問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/eseSse21.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q21" value="A">A．えせせ</label>
+      <label><input type="radio" name="q21" value="B">B．えせっせ</label>
+    </div>
+  </div>
+
+  <!-- 22. あたた / あたった  audio: ataTta22  正解: B -->
+  <div class="question" data-answer="B">
+    <p><strong>第22問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/ataTta22.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q22" value="A">A．あたた</label>
+      <label><input type="radio" name="q22" value="B">B．あたった</label>
+    </div>
+  </div>
+
+  <!-- 23. いきき / いきっき  audio: ikiki23  正解: A -->
+  <div class="question" data-answer="A">
+    <p><strong>第23問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/ikiki23.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q23" value="A">A．いきき</label>
+      <label><input type="radio" name="q23" value="B">B．いきっき</label>
     </div>
   </div>
 
@@ -70,7 +380,19 @@
 
   <script>
     document.getElementById('submit-btn').addEventListener('click', function () {
-      // 先切换到感谢页面
+      // 这里已经有 data-answer，可以用来算分。
+      // 但按现在设计：不显示分数，只显示感谢页面。
+      /*
+      let score = 0;
+      const questions = document.querySelectorAll('.question');
+      questions.forEach(q => {
+        const correct = q.dataset.answer;
+        const checked = q.querySelector('input[type="radio"]:checked');
+        if (checked && checked.value === correct) score++;
+      });
+      console.log('Score:', score);
+      */
+
       document.body.innerHTML = `
         <div style="
           display: flex;
@@ -80,13 +402,12 @@
           height: 100vh;
           font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
           text-align: center;
+          padding: 0 16px;
         ">
           <h1>感谢您的参与！</h1>
           <p>本窗口将在 3 秒后自动关闭。<br>若没有自动关闭，请手动关闭此窗口。</p>
         </div>
       `;
-
-      // 3 秒后尝试关闭窗口
       setTimeout(function () {
         window.close();
       }, 3000);
