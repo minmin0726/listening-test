@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>日本語聴解テスト</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 16px;
+      line-height: 1.6;
+    }
+    h1 {
+      text-align: center;
+    }
+    .question {
+      border: 1px solid #ddd;
+      padding: 16px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
+    .options label {
+      display: block;
+      margin: 4px 0;
+      cursor: pointer;
+    }
+    #submit-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+  <h1>日本語聴解テスト</h1>
+  <p>音声を聞いて、正しい答えを一つ選んでください。</p>
+
+  <!-- 第1题：答案为 A -->
+  <div class="question" data-answer="A">
+    <p><strong>第1問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/akakaQ1.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q1" value="A"> A．あかか</label>
+      <label><input type="radio" name="q1" value="B"> B．あかっか</label>
+    </div>
+  </div>
+
+  <!-- 第2题：答案为 B -->
+  <div class="question" data-answer="B">
+    <p><strong>第2問</strong>　それは「＿＿＿」です。</p>
+    <audio controls>
+      <source src="audio/akakkaQ2.mp3" type="audio/mpeg">
+      ご利用のブラウザは audio タグに対応していません。
+    </audio>
+    <div class="options">
+      <label><input type="radio" name="q2" value="A"> A．あかか</label>
+      <label><input type="radio" name="q2" value="B"> B．あかっか</label>
+    </div>
+  </div>
+
+  <button id="submit-btn">提交</button>
+
+  <script>
+    document.getElementById('submit-btn').addEventListener('click', function () {
+      // 先切换到感谢页面
+      document.body.innerHTML = `
+        <div style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          text-align: center;
+        ">
+          <h1>感谢您的参与！</h1>
+          <p>本窗口将在 3 秒后自动关闭。<br>若没有自动关闭，请手动关闭此窗口。</p>
+        </div>
+      `;
+
+      // 3 秒后尝试关闭窗口
+      setTimeout(function () {
+        window.close();
+      }, 3000);
+    });
+  </script>
+</body>
+</html>
