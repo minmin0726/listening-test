@@ -30,15 +30,47 @@
       margin-top: -6px;
       margin-bottom: 20px;
     }
+
+    .info-section {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 20px;
+    }
+    .info-section h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+    .info-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 20px;
+      margin-top: 6px;
+      align-items: center;
+    }
+    .info-row label {
+      font-size: 14px;
+    }
+    .info-row input[type="text"],
+    .info-row select {
+      padding: 4px 6px;
+      font-size: 14px;
+    }
+
     .question {
       border: 1px solid #ddd;
       padding: 14px;
       margin-bottom: 18px;
       border-radius: 8px;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
     .question p {
       margin: 0 0 8px;
       font-size: 16px;
+    }
+    .question.unanswered {
+      border-color: #e74c3c;
+      box-shadow: 0 0 0 1px rgba(231, 76, 60, 0.2);
     }
     audio {
       width: 100%;
@@ -76,6 +108,48 @@
   <h1>促音小实验</h1>
   <p class="subtitle">音声を聞いて、正しい答えを一つ選んでください。</p>
   <p class="note">※ それぞれの音声は、一度だけとは限らず、同じものが複数回出てくる可能性があります。</p>
+
+  <!-- 基本信息区域 -->
+  <div class="info-section">
+    <h2>実験参加者情報</h2>
+    <div class="info-row">
+      <label>
+        昵称：
+        <input type="text" id="nickname" placeholder="例：小明">
+      </label>
+    </div>
+    <div class="info-row">
+      <label>
+        母语：
+        <select id="motherTongue">
+          <option value="">请选择</option>
+          <option value="中国語">中国語</option>
+          <option value="日本語">日本語</option>
+          <option value="その他">その他</option>
+        </select>
+      </label>
+      <label>
+        日语水平：
+        <select id="japaneseLevel">
+          <option value="">请选择</option>
+          <option value="母语">母语</option>
+          <option value="上級">上級</option>
+          <option value="中級">中級</option>
+          <option value="初級">初級</option>
+        </select>
+      </label>
+    </div>
+    <div class="info-row">
+      <label>
+        是否长期在日本生活：
+        <select id="longTermResident">
+          <option value="">请选择</option>
+          <option value="是">是</option>
+          <option value="否">否</option>
+        </select>
+      </label>
+    </div>
+  </div>
 
   <!-- 1. いきき / いきっき  audio: ikiKki1  正解: B -->
   <div class="question" data-answer="B">
@@ -379,20 +453,96 @@
   <button id="submit-btn">提交</button>
 
   <script>
+    // TODO: 把这里替换成你部署好的 Apps Script Web App URL
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzgqFcQWWWO5C6M1mV1LRYOXJZaTnoNfqyH-uk3qIuZYxNzD1qVLgPVbTWJw-l3eyc3AA/exec';
+
+    // 记录开始时间（页面加载时）
+    let startTime = new Date();
+
     document.getElementById('submit-btn').addEventListener('click', function () {
-      // 这里已经有 data-answer，可以用来算分。
-      // 但按现在设计：不显示分数，只显示感谢页面。
-      /*
-      let score = 0;
+      // 先清除所有题目的红框
       const questions = document.querySelectorAll('.question');
-      questions.forEach(q => {
+      questions.forEach(q => q.classList.remove('unanswered'));
+
+      // 1. 检查基本信息是否填写
+      const nickname = document.getElementById('nickname').value.trim();
+      const motherTongue = document.getElementById('motherTongue').value;
+      const japaneseLevel = document.getElementById('japaneseLevel').value;
+      const longTermResident = document.getElementById('longTermResident').value;
+
+      if (!nickname || !motherTongue || !japaneseLevel || !longTermResident) {
+        alert('请先填写完上面的基本信息（昵称、母语、日语水平、是否长期在日本生活）。');
+        return;
+      }
+
+      // 2. 检查所有题目是否作答完，顺便收集答案
+      let allAnswered = true;
+      const answers = [];
+
+      questions.forEach((q, idx) => {
+        const checked = q.querySelector('input[type="radio"]:checked');
+        if (!checked) {
+          allAnswered = false;
+          q.classList.add('unanswered'); // 标红边框
+        }
+        answers.push(checked ? checked.value : '');
+      });
+
+      if (!allAnswered) {
+        alert('还有题目尚未作答，请完成所有题目。未作答的题目已用红色边框标出。');
+        // 滚动到第一个未作答的题目
+        const firstUnanswered = document.querySelector('.question.unanswered');
+        if (firstUnanswered) {
+          firstUnanswered.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+      }
+
+      // 3. 计算得分
+      let score = 0;
+      questions.forEach((q, idx) => {
         const correct = q.dataset.answer;
         const checked = q.querySelector('input[type="radio"]:checked');
         if (checked && checked.value === correct) score++;
       });
-      console.log('Score:', score);
-      */
 
+      // 4. 记录结束时间和作答时长
+      const endTime = new Date();
+      const durationMs = endTime - startTime;
+      const durationSec = durationMs / 1000;
+
+      // 5. 构造要发送到 Google Apps Script 的数据
+      const payload = {
+        nickname: nickname,
+        motherTongue: motherTongue,
+        japaneseLevel: japaneseLevel,
+        longTermResident: longTermResident,
+        startTime: startTime.toISOString(),
+        endTime: endTime.toISOString(),
+        durationMs: durationMs,
+        durationSec: durationSec,
+        answers: answers.join(''), // 例如 "BAABBA..."
+        score: score,
+        userAgent: navigator.userAgent
+      };
+
+      // 6. 发送到你的 Web App（即 Google Apps Script）
+      if (WEB_APP_URL && WEB_APP_URL.startsWith('http')) {
+        fetch(WEB_APP_URL, {
+          method: 'POST',
+          mode: 'no-cors', // 简化跨域处理
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        }).catch(err => {
+          console.error('送信失败：', err);
+        });
+      } else {
+        console.warn('WEB_APP_URL 未设置，数据不会被发送。');
+      }
+
+      // 7. 切换到感谢页面 + 3秒后尝试关闭窗口
       document.body.innerHTML = `
         <div style="
           display: flex;
