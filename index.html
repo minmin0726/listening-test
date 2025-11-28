@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>促音小实验</title>
+  <title>促音知覚実験</title>
   <style>
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -122,7 +122,7 @@
   </style>
 </head>
 <body>
-  <h1 id="main-title">促音小实验</h1>
+  <h1 id="main-title">促音知覚実験</h1>
   <p class="subtitle" id="subtitle">音を聞いて、正しい答えを一つ選んでください。</p>
   <p class="note" id="note">
     ※ それぞれの音は、一度だけとは限らず、同じものが複数回出てくる可能性があります。
@@ -144,16 +144,29 @@
     <button id="language-next" class="btn-center">下一步 / 次へ</button>
   </div>
 
-  <!-- Step 2: 参与者基本信息（仅中国語路径） -->
+  <!-- Step 2: 参与者基本信息（中日共通，但验证不同） -->
   <div id="step-info" class="step info-section">
-    <h2>实验参与者信息</h2>
-    <div class="info-row">
+    <h2 id="info-title">实验参与者信息</h2>
+
+    <div class="info-row" id="row-nickname">
       <label>
-        昵称：
-        <input type="text" id="nickname" placeholder="例：小明">
+        昵称 / ニックネーム：
+        <input type="text" id="nickname" placeholder="例：小明 / たろう">
       </label>
     </div>
-    <div class="info-row">
+
+    <div class="info-row" id="row-gender">
+      <label>
+        性别 / 性別：
+        <select id="gender">
+          <option value="">请选择 / 選択してください</option>
+          <option value="男">男 / 男性</option>
+          <option value="女">女 / 女性</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="info-row" id="row-jl">
       <label>
         日语水平：
         <select id="japaneseLevel">
@@ -170,7 +183,8 @@
         </select>
       </label>
     </div>
-    <div class="info-row">
+
+    <div class="info-row" id="row-lt">
       <label>
         是否长期在日本生活：
         <select id="longTermResident">
@@ -180,6 +194,7 @@
         </select>
       </label>
     </div>
+
     <div class="info-row" id="duration-row" style="display:none;">
       <label>
         在日本生活时间：
@@ -192,7 +207,8 @@
         </select>
       </label>
     </div>
-    <button id="info-next" class="btn-center">开始答题</button>
+
+    <button id="info-next" class="btn-center">开始答题 / 問題へ進む</button>
   </div>
 
   <!-- Step 3: 答题页面（共通） -->
@@ -497,7 +513,7 @@
       </div>
     </div>
 
-    <!-- 24 新增 -->
+    <!-- 24 -->
     <div class="question" data-answer="A">
       <p><strong>第24問</strong>　それは「<span class="blank"></span>」です。</p>
       <audio controls>
@@ -518,6 +534,7 @@
 
     let motherTongue = '';
     let nickname = '';
+    let gender = '';
     let japaneseLevel = '';
     let longTermResident = '';
     let residentDuration = '';
@@ -527,6 +544,14 @@
     const stepLanguage = document.getElementById('step-language');
     const stepInfo = document.getElementById('step-info');
     const stepQuestions = document.getElementById('step-questions');
+
+    const infoTitle = document.getElementById('info-title');
+    const longTermSelect = document.getElementById('longTermResident');
+    const durationRow = document.getElementById('duration-row');
+    const durationSelect = document.getElementById('residentDuration');
+
+    const rowJL = document.getElementById('row-jl');
+    const rowLT = document.getElementById('row-lt');
 
     function showStep(stepEl) {
       [stepLanguage, stepInfo, stepQuestions].forEach(el => el.classList.remove('active'));
@@ -544,22 +569,26 @@
 
       if (motherTongue === '日本語') {
         uiLang = 'ja';
-        japaneseLevel = '母语';
+        japaneseLevel = '母语';   // 固定为母语
         longTermResident = '';
         residentDuration = '';
-        startTime = new Date();
-        showStep(stepQuestions);
+        // 日本語母語：只需要 昵称 + 性别
+        rowJL.style.display = 'none';
+        rowLT.style.display = 'none';
+        durationRow.style.display = 'none';
+        infoTitle.textContent = '参加者情報';
       } else {
         uiLang = 'zh';
-        showStep(stepInfo);
+        // 中国語母語：显示全部信息项
+        rowJL.style.display = 'flex';
+        rowLT.style.display = 'flex';
+        infoTitle.textContent = '实验参与者信息';
       }
+
+      showStep(stepInfo);
     });
 
-    // Step 2: 信息填写—中国語路径
-    const longTermSelect = document.getElementById('longTermResident');
-    const durationRow = document.getElementById('duration-row');
-    const durationSelect = document.getElementById('residentDuration');
-
+    // Step 2: 信息选择变化（在日年数）
     longTermSelect.addEventListener('change', () => {
       if (longTermSelect.value === '是') {
         durationRow.style.display = 'flex';
@@ -569,19 +598,35 @@
       }
     });
 
+    // Step 2: 下一步 → 进入题目
     document.getElementById('info-next').addEventListener('click', () => {
       nickname = document.getElementById('nickname').value.trim();
-      japaneseLevel = document.getElementById('japaneseLevel').value;
-      longTermResident = document.getElementById('longTermResident').value;
-      residentDuration = (longTermResident === '是') ? durationSelect.value : '';
+      gender = document.getElementById('gender').value;
+      const jlSelect = document.getElementById('japaneseLevel');
 
-      if (!nickname || !japaneseLevel || !longTermResident) {
-        alert('请先填写完基本信息（昵称、日语水平、是否长期在日本生活）。');
-        return;
-      }
-      if (longTermResident === '是' && !residentDuration) {
-        alert('请选择在日本生活的时间长度。');
-        return;
+      if (motherTongue === '日本語') {
+        // 日本语母语：只要求 昵称 + 性别
+        if (!nickname || !gender) {
+          alert('ニックネームと性別を入力してください。');
+          return;
+        }
+        japaneseLevel = '母语';
+        longTermResident = '';
+        residentDuration = '';
+      } else {
+        // 中国语母语：昵称 + 性别 + 日语水平 + 是否长期在日 +（必要时）年数
+        japaneseLevel = jlSelect.value;
+        longTermResident = longTermSelect.value;
+        residentDuration = (longTermResident === '是') ? durationSelect.value : '';
+
+        if (!nickname || !gender || !japaneseLevel || !longTermResident) {
+          alert('请先填写完基本信息（昵称、性别、日语水平、是否长期在日本生活）。');
+          return;
+        }
+        if (longTermResident === '是' && !residentDuration) {
+          alert('请选择在日本生活的时间长度。');
+          return;
+        }
       }
 
       startTime = new Date();
@@ -674,6 +719,7 @@
       const payload = {
         motherTongue: motherTongue,
         nickname: nickname,
+        gender: gender,
         japaneseLevel: japaneseLevel,
         longTermResident: longTermResident,
         residentDuration: residentDuration,
@@ -733,4 +779,3 @@
   </script>
 </body>
 </html>
-
