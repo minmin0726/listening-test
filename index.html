@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>促音知覚実験</title>
+  <title>促音小实验</title>
   <style>
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -122,10 +122,10 @@
   </style>
 </head>
 <body>
-  <h1 id="main-title">促音知覚実験</h1>
-  <p class="subtitle" id="subtitle">音を聞いて、正しい答えを一つ選んでください。</p>
+  <h1 id="main-title">促音小实验</h1>
+  <p class="subtitle" id="subtitle">音声を聞いて、正しい答えを一つ選んでください。</p>
   <p class="note" id="note">
-    ※ それぞれの音は、一度だけとは限らず、同じものが複数回出てくる可能性があります。
+    ※ それぞれの音声は、一度だけとは限らず、同じものが複数回出てくる可能性があります。
   </p>
 
   <!-- Step 1: 选择母语 / 母語選択 -->
@@ -144,31 +144,31 @@
     <button id="language-next" class="btn-center">下一步 / 次へ</button>
   </div>
 
-  <!-- Step 2: 参与者基本信息（中日共通，但验证不同） -->
+  <!-- Step 2: 参与者基本信息（中日共通，内容按语言切换） -->
   <div id="step-info" class="step info-section">
     <h2 id="info-title">实验参与者信息</h2>
 
     <div class="info-row" id="row-nickname">
       <label>
-        昵称 / ニックネーム：
-        <input type="text" id="nickname" placeholder="例：小明 / たろう">
+        <span id="nickname-caption">昵称：</span>
+        <input type="text" id="nickname" placeholder="例：小明">
       </label>
     </div>
 
     <div class="info-row" id="row-gender">
       <label>
-        性别 / 性別：
+        <span id="gender-caption">性别：</span>
         <select id="gender">
-          <option value="">请选择 / 選択してください</option>
-          <option value="男">男 / 男性</option>
-          <option value="女">女 / 女性</option>
+          <option value="">请选择</option>
+          <option value="男">男</option>
+          <option value="女">女</option>
         </select>
       </label>
     </div>
 
     <div class="info-row" id="row-jl">
       <label>
-        日语水平：
+        <span id="jl-caption">日语水平：</span>
         <select id="japaneseLevel">
           <option value="">请选择</option>
           <option value="母语">母语</option>
@@ -186,7 +186,7 @@
 
     <div class="info-row" id="row-lt">
       <label>
-        是否长期在日本生活：
+        <span id="lt-caption">是否长期在日本生活：</span>
         <select id="longTermResident">
           <option value="">请选择</option>
           <option value="是">是</option>
@@ -197,7 +197,7 @@
 
     <div class="info-row" id="duration-row" style="display:none;">
       <label>
-        在日本生活时间：
+        <span id="duration-caption">在日本生活时间：</span>
         <select id="residentDuration">
           <option value="">请选择</option>
           <option value="1年未满">1年未满</option>
@@ -208,7 +208,7 @@
       </label>
     </div>
 
-    <button id="info-next" class="btn-center">开始答题 / 問題へ進む</button>
+    <button id="info-next" class="btn-center">开始答题</button>
   </div>
 
   <!-- Step 3: 答题页面（共通） -->
@@ -553,9 +553,88 @@
     const rowJL = document.getElementById('row-jl');
     const rowLT = document.getElementById('row-lt');
 
+    const nicknameInput = document.getElementById('nickname');
+    const nicknameCaption = document.getElementById('nickname-caption');
+    const genderCaption = document.getElementById('gender-caption');
+    const jlCaption = document.getElementById('jl-caption');
+    const ltCaption = document.getElementById('lt-caption');
+    const durationCaption = document.getElementById('duration-caption');
+    const genderSelect = document.getElementById('gender');
+    const jlSelect = document.getElementById('japaneseLevel');
+    const ltSelect = document.getElementById('longTermResident');
+    const infoNextBtn = document.getElementById('info-next');
+
     function showStep(stepEl) {
       [stepLanguage, stepInfo, stepQuestions].forEach(el => el.classList.remove('active'));
       stepEl.classList.add('active');
+    }
+
+    // 根据 uiLang 切换个人信息页面的文字
+    function applyInfoLanguage() {
+      if (uiLang === 'ja') {
+        infoTitle.textContent = '参加者情報';
+        nicknameCaption.textContent = 'ニックネーム：';
+        genderCaption.textContent = '性別：';
+        jlCaption.textContent = '日本語レベル：';
+        ltCaption.textContent = '日本在住経験：';
+        durationCaption.textContent = '日本での在住期間：';
+        nicknameInput.placeholder = '例：たろう';
+
+        // 性别下拉
+        genderSelect.options[0].text = '選択してください';
+        genderSelect.options[1].text = '男性';
+        genderSelect.options[2].text = '女性';
+
+        // 日语水平下拉（虽然日本語母語时隐藏，但顺手改成日文也行）
+        jlSelect.options[0].text = '選択してください';
+        jlSelect.options[1].text = '母語';
+        jlSelect.options[2].text = '上級';
+        jlSelect.options[3].text = '中級';
+        jlSelect.options[4].text = '初級';
+
+        // 是否长期在日本生活下拉
+        ltSelect.options[0].text = '選択してください';
+        ltSelect.options[1].text = 'はい';
+        ltSelect.options[2].text = 'いいえ';
+
+        durationSelect.options[0].text = '選択してください';
+        durationSelect.options[1].text = '1年未満';
+        durationSelect.options[2].text = '1年～3年';
+        durationSelect.options[3].text = '3年～5年';
+        durationSelect.options[4].text = '5年以上';
+
+        infoNextBtn.textContent = '問題へ進む';
+      } else {
+        infoTitle.textContent = '实验参与者信息';
+        nicknameCaption.textContent = '昵称：';
+        genderCaption.textContent = '性别：';
+        jlCaption.textContent = '日语水平：';
+        ltCaption.textContent = '是否长期在日本生活：';
+        durationCaption.textContent = '在日本生活时间：';
+        nicknameInput.placeholder = '例：小明';
+
+        genderSelect.options[0].text = '请选择';
+        genderSelect.options[1].text = '男';
+        genderSelect.options[2].text = '女';
+
+        jlSelect.options[0].text = '请选择';
+        jlSelect.options[1].text = '母语';
+        jlSelect.options[2].text = '上級';
+        jlSelect.options[3].text = '中級';
+        jlSelect.options[4].text = '初級';
+
+        ltSelect.options[0].text = '请选择';
+        ltSelect.options[1].text = '是';
+        ltSelect.options[2].text = '否';
+
+        durationSelect.options[0].text = '请选择';
+        durationSelect.options[1].text = '1年未满';
+        durationSelect.options[2].text = '1年～3年';
+        durationSelect.options[3].text = '3年～5年';
+        durationSelect.options[4].text = '5年以上';
+
+        infoNextBtn.textContent = '开始答题';
+      }
     }
 
     // Step 1: 母语选择
@@ -572,25 +651,26 @@
         japaneseLevel = '母语';   // 固定为母语
         longTermResident = '';
         residentDuration = '';
-        // 日本語母語：只需要 昵称 + 性别
+
+        // 日本語母語：只需要 昵称 + 性别（其他隐藏）
         rowJL.style.display = 'none';
         rowLT.style.display = 'none';
         durationRow.style.display = 'none';
-        infoTitle.textContent = '参加者情報';
       } else {
         uiLang = 'zh';
         // 中国語母語：显示全部信息项
         rowJL.style.display = 'flex';
         rowLT.style.display = 'flex';
-        infoTitle.textContent = '实验参与者信息';
+        // durationRow 初始由是否长期在日控制
       }
 
+      applyInfoLanguage();
       showStep(stepInfo);
     });
 
     // Step 2: 信息选择变化（在日年数）
     longTermSelect.addEventListener('change', () => {
-      if (longTermSelect.value === '是') {
+      if (longTermSelect.value === '是' || longTermSelect.value === 'はい') {
         durationRow.style.display = 'flex';
       } else {
         durationRow.style.display = 'none';
@@ -600,9 +680,8 @@
 
     // Step 2: 下一步 → 进入题目
     document.getElementById('info-next').addEventListener('click', () => {
-      nickname = document.getElementById('nickname').value.trim();
-      gender = document.getElementById('gender').value;
-      const jlSelect = document.getElementById('japaneseLevel');
+      nickname = nicknameInput.value.trim();
+      gender = genderSelect.value;
 
       if (motherTongue === '日本語') {
         // 日本语母语：只要求 昵称 + 性别
@@ -751,7 +830,7 @@
       let thankTitle, thankText;
       if (uiLang === 'ja') {
         thankTitle = 'ご参加ありがとうございます！';
-        thankText = 'このページは3秒後に自動的に閉じます。自動的に閉じない場合は、手動で閉じてください。';
+        thankText = 'このウィンドウは3秒後に自動的に閉じます。自動的に閉じない場合は、手動で閉じてください。';
       } else {
         thankTitle = '感谢您的参与！';
         thankText = '本窗口将在 3 秒后自动关闭。若没有自动关闭，请手动关闭此窗口。';
